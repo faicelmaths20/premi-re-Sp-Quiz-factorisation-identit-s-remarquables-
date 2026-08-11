@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz interactif — Factorisation et identités remarquables — M. Faicel</title>
+<style>
+:root{
+  --bg:#f4f7fb; --card:#ffffff; --text:#172033; --muted:#667085;
+  --primary:#315efb; --good:#16803a; --bad:#b42318; --border:#d9e0ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+.wrap{max-width:820px;margin:auto;padding:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:0 8px 28px rgba(17,24,39,.06)}
+h1{font-size:clamp(1.55rem,4vw,2.25rem);margin:0 0 8px}
+h2{margin-top:0}
+.subtitle{color:var(--muted);margin:0 0 18px}
+.teacher{font-weight:700}
+.topbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
+.badge{padding:7px 11px;border-radius:999px;background:#eef2ff;font-weight:700;font-size:.9rem}
+.progress{height:10px;background:#e9edf4;border-radius:999px;overflow:hidden;margin:12px 0 20px}
+.progress > div{height:100%;background:var(--primary);width:0;transition:.3s}
+.identity{font-size:1.18rem;background:#f8fafc;border:1px solid var(--border);padding:12px;border-radius:12px;margin:8px 0}
+.question{font-size:1.25rem;font-weight:750;line-height:1.45;margin:18px 0}
+.options{display:grid;gap:10px}
+button.option,button.main,button.secondary{
+  width:100%;border:1px solid var(--border);background:white;border-radius:12px;padding:13px 14px;
+  text-align:left;font-size:1rem;cursor:pointer;transition:.15s
+}
+button.option:hover{border-color:var(--primary);transform:translateY(-1px)}
+button.option.correct{border-color:var(--good);background:#ecfdf3}
+button.option.wrong{border-color:var(--bad);background:#fef3f2}
+button.main{background:var(--primary);color:white;border-color:var(--primary);text-align:center;font-weight:800}
+button.secondary{text-align:center;font-weight:700}
+button:disabled{cursor:default;transform:none;opacity:.9}
+.feedback{display:none;margin-top:15px;padding:13px;border-radius:12px;line-height:1.5}
+.feedback.good{display:block;background:#ecfdf3;color:#135c2c;border:1px solid #a6f4c5}
+.feedback.bad{display:block;background:#fef3f2;color:#7a271a;border:1px solid #fecdca}
+.explain{margin-top:7px;color:inherit}
+.actions{margin-top:15px;display:none}
+.small{font-size:.92rem;color:var(--muted)}
+.center{text-align:center}
+.namebox{width:100%;padding:13px;border:1px solid var(--border);border-radius:10px;font-size:1rem;margin:8px 0 14px}
+.result{font-size:3rem;font-weight:900;margin:10px 0}
+.mastery{display:grid;gap:10px;margin:18px 0}
+.mastery div{padding:11px;border:1px solid var(--border);border-radius:10px;background:#fafbfc}
+.footer{margin-top:14px;color:var(--muted);font-size:.85rem;text-align:center}
+@media (max-width:600px){.wrap{padding:10px}.card{padding:16px;border-radius:14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card" id="app"></div>
+  <div class="footer">Quiz pédagogique de M. Faicel — Identités remarquables et factorisation</div>
+</div>
+
+<script>
+const questions = [
+  {
+    level:"1 · Rappel", skill:"Rappel des identités",
+    q:"Quelle est l'identité correcte pour <b>(a+b)²</b> ?",
+    o:["a²+b²","a²+2ab+b²","a²−2ab+b²","(a−b)(a+b)"], a:1,
+    e:"Le terme central est indispensable : (a+b)² = a² + 2ab + b²."
+  },
+  {
+    level:"1 · Rappel", skill:"Rappel des identités",
+    q:"Quelle est l'identité correcte pour <b>(a−b)²</b> ?",
+    o:["a²−b²","a²−2ab+b²","a²+2ab+b²","(a−b)(a+b)"], a:1,
+    e:"Le dernier terme reste positif car (−b)²=b² ; seul le terme 2ab change de signe."
+  },
+  {
+    level:"1 · Rappel", skill:"Rappel des identités",
+    q:"Complète : <b>a²−b² = …</b>",
+    o:["(a−b)²","(a+b)²","(a−b)(a+b)","a(a−b)"], a:2,
+    e:"Une différence de deux carrés se factorise en produit de la différence et de la somme."
+  },
+  {
+    level:"1 · Rappel", skill:"Rappel des identités",
+    q:"Dans <b>a²+2ab+b²</b>, quel terme permet surtout de reconnaître le carré d'une somme ?",
+    o:["a²","b²","2ab","a²+b²"], a:2,
+    e:"Les deux carrés ne suffisent pas : il faut aussi vérifier que le terme central vaut exactement +2ab."
+  },
+
+  {
+    level:"2 · Reconnaître", skill:"Reconnaissance de forme",
+    q:"Quelle expression est un carré parfait ?",
+    o:["x²+10x+25","x²+10x+20","x²−25","x²+25"], a:0,
+    e:"x²+10x+25 = x²+2×x×5+5² = (x+5)²."
+  },
+  {
+    level:"2 · Reconnaître", skill:"Reconnaissance de forme",
+    q:"Quelle expression est une différence de deux carrés ?",
+    o:["x²+49","x²−14x+49","x²−49","x²−7x"], a:2,
+    e:"x²−49 = x²−7² : c'est exactement la forme a²−b²."
+  },
+  {
+    level:"2 · Reconnaître", skill:"Reconnaissance de forme",
+    q:"<b>x²−12x+36</b> correspond à…",
+    o:["(x−6)²","(x+6)²","(x−36)(x+36)","aucune identité remarquable"], a:0,
+    e:"36=6² et −12x=−2×x×6, donc x²−12x+36=(x−6)²."
+  },
+  {
+    level:"2 · Reconnaître", skill:"Reconnaissance de forme",
+    q:"Pourquoi <b>x²+16</b> ne se factorise-t-il pas avec a²−b² ?",
+    o:["Parce que 16 n'est pas un carré","Parce qu'il y a une somme et non une différence","Parce que x² n'est pas un carré","Parce qu'il manque 2x"], a:1,
+    e:"L'identité est a²−b²=(a−b)(a+b). Une somme de deux carrés n'a pas cette forme."
+  },
+
+  {
+    level:"3 · Factoriser", skill:"Factorisation directe",
+    q:"Factorise <b>x²+8x+16</b>.",
+    o:["(x+4)²","(x−4)²","(x−4)(x+4)","(x+8)²"], a:0,
+    e:"16=4² et 8x=2×x×4 : on reconnaît a²+2ab+b²."
+  },
+  {
+    level:"3 · Factoriser", skill:"Factorisation directe",
+    q:"Factorise <b>x²−18x+81</b>.",
+    o:["(x+9)²","(x−9)²","(x−81)(x+81)","(x−9)(x+9)"], a:1,
+    e:"81=9² et −18x=−2×x×9, donc (x−9)²."
+  },
+  {
+    level:"3 · Factoriser", skill:"Factorisation directe",
+    q:"Factorise <b>x²−64</b>.",
+    o:["(x−8)²","(x−8)(x+8)","(x−64)(x+64)","(x+8)²"], a:1,
+    e:"x²−64=x²−8²=(x−8)(x+8)."
+  },
+  {
+    level:"3 · Factoriser", skill:"Factorisation directe",
+    q:"Factorise <b>9x²−25</b>.",
+    o:["(9x−5)(9x+5)","(3x−5)²","(3x−5)(3x+5)","(9x−25)(9x+25)"], a:2,
+    e:"9x²=(3x)² et 25=5², donc (3x−5)(3x+5)."
+  },
+
+  {
+    level:"4 · Identifier a et b", skill:"Carrés avec coefficients",
+    q:"Factorise <b>4x²+12x+9</b>.",
+    o:["(2x+3)²","(4x+3)²","(2x−3)²","(4x−3)(4x+3)"], a:0,
+    e:"4x²=(2x)², 9=3² et 12x=2×(2x)×3."
+  },
+  {
+    level:"4 · Identifier a et b", skill:"Carrés avec coefficients",
+    q:"Factorise <b>25x²−20x+4</b>.",
+    o:["(5x−2)²","(5x+2)²","(25x−2)²","(5x−2)(5x+2)"], a:0,
+    e:"25x²=(5x)², 4=2² et −20x=−2×(5x)×2."
+  },
+  {
+    level:"4 · Identifier a et b", skill:"Carrés avec coefficients",
+    q:"Factorise <b>49x²−1</b>.",
+    o:["(7x−1)²","(49x−1)(49x+1)","(7x−1)(7x+1)","(7x+1)²"], a:2,
+    e:"49x²=(7x)² et 1=1² : différence de deux carrés."
+  },
+  {
+    level:"4 · Identifier a et b", skill:"Carrés avec coefficients",
+    q:"Quelle vérification prouve que <b>9x²+24x+16</b> est un carré parfait ?",
+    o:["24x=3x+16","24x=2×(3x)×4","24x=9x+15x","16=2×8"], a:1,
+    e:"Les carrés donnent a=3x et b=4. Il faut alors vérifier 2ab=2×3x×4=24x."
+  },
+
+  {
+    level:"5 · Défi", skill:"Choix de stratégie",
+    q:"Factorise <b>(x+2)²−25</b>.",
+    o:["(x−3)(x+7)","(x+2−25)(x+2+25)","(x−5)(x+5)","(x−3)²"], a:0,
+    e:"Pose a=x+2 et b=5 : a²−b²=(a−b)(a+b)=(x−3)(x+7)."
+  },
+  {
+    level:"5 · Défi", skill:"Choix de stratégie",
+    q:"Factorise <b>4(x−1)²−9</b>.",
+    o:["(2x−5)(2x+1)","(4x−13)(4x+7)","(2x−1)(2x+1)","(2x−3)²"], a:0,
+    e:"4(x−1)²=[2(x−1)]². Donc [2(x−1)−3][2(x−1)+3]=(2x−5)(2x+1)."
+  },
+  {
+    level:"5 · Défi", skill:"Choix de stratégie",
+    q:"Factorise <b>2x²−18</b> le plus complètement possible.",
+    o:["2(x−9)(x+9)","2(x−3)(x+3)","(2x−3)(x+3)","2(x−3)²"], a:1,
+    e:"On commence par 2(x²−9), puis x²−9=(x−3)(x+3)."
+  },
+  {
+    level:"5 · Défi", skill:"Choix de stratégie",
+    q:"Un élève écrit <b>x²−10x+25=(x−5)(x+5)</b>. Quelle est son erreur ?",
+    o:["Il a utilisé a²−b² au lieu de (a−b)²","Il devait écrire (x+5)²","25 n'est pas 5²","Il n'y a aucune erreur"], a:0,
+    e:"(x−5)(x+5)=x²−25. Ici le terme −10x montre qu'il faut reconnaître (x−5)²."
+  }
+];
+
+let i=0, score=0, locked=false, student="", answers=[];
+const app=document.getElementById("app");
+
+function startScreen(){
+  app.innerHTML=`
+    <div class="center">
+      <div class="badge">Première spécialité · Calcul algébrique</div>
+      <h1>Factoriser avec les identités remarquables</h1>
+      <p class="subtitle">Quiz progressif de <span class="teacher">M. Faicel</span></p>
+    </div>
+    <div class="identity">(a+b)² = ?</div>
+    <div class="identity">(a−b)² = ?</div>
+    <div class="identity">a²−b² = ?</div>
+    <p><b>Objectif :</b> apprendre à reconnaître la bonne structure avant de factoriser.</p>
+    <p class="small">20 questions · correction immédiate · explication après chaque réponse · bilan par compétence.</p>
+    <label for="student"><b>Prénom de l'élève</b> (facultatif)</label>
+    <input class="namebox" id="student" placeholder="Ex. Lina">
+    <button class="main" onclick="begin()">Commencer le quiz</button>
+  `;
+}
+function begin(){
+  student=document.getElementById("student").value.trim();
+  i=0;score=0;answers=[];renderQuestion();
+}
+function renderQuestion(){
+  locked=false;
+  const q=questions[i];
+  const pct=(i/questions.length)*100;
+  app.innerHTML=`
+    <div class="topbar">
+      <span class="badge">${q.level}</span>
+      <span><b>${i+1}/${questions.length}</b> · Score ${score}</span>
+    </div>
+    <div class="progress"><div style="width:${pct}%"></div></div>
+    <div class="small">Compétence : ${q.skill}</div>
+    <div class="question">${q.q}</div>
+    <div class="options">
+      ${q.o.map((x,k)=>`<button class="option" id="o${k}" onclick="answer(${k})">${String.fromCharCode(65+k)}. ${x}</button>`).join("")}
+    </div>
+    <div id="feedback" class="feedback"></div>
+    <div id="actions" class="actions">
+      <button class="main" onclick="next()">${i===questions.length-1 ? "Voir mon bilan" : "Question suivante"}</button>
+    </div>
+  `;
+}
+function answer(k){
+  if(locked)return; locked=true;
+  const q=questions[i], ok=k===q.a;
+  answers.push({skill:q.skill,ok});
+  if(ok)score++;
+  document.querySelectorAll(".option").forEach((b,idx)=>{
+    b.disabled=true;
+    if(idx===q.a)b.classList.add("correct");
+    if(idx===k && !ok)b.classList.add("wrong");
+  });
+  const fb=document.getElementById("feedback");
+  fb.className="feedback "+(ok?"good":"bad");
+  fb.innerHTML=`<b>${ok?"Correct.":"À revoir."}</b><div class="explain">${q.e}</div>`;
+  document.getElementById("actions").style.display="block";
+}
+function next(){
+  i++;
+  if(i<questions.length) renderQuestion(); else results();
+}
+function results(){
+  const pct=Math.round(100*score/questions.length);
+  const skills={};
+  answers.forEach(x=>{
+    if(!skills[x.skill])skills[x.skill]={ok:0,n:0};
+    skills[x.skill].n++; if(x.ok)skills[x.skill].ok++;
+  });
+  let msg = pct>=90 ? "Maîtrise solide" : pct>=75 ? "Bonne maîtrise" : pct>=55 ? "En progrès" : "Les bases sont à consolider";
+  app.innerHTML=`
+    <div class="center">
+      <div class="badge">Bilan final</div>
+      <h1>${student?student+", ":""}voici ton résultat</h1>
+      <div class="result">${score}/${questions.length}</div>
+      <h2>${msg}</h2>
+      <p>${pct}% de réponses correctes.</p>
+    </div>
+    <div class="mastery">
+      ${Object.entries(skills).map(([s,v])=>`<div><b>${s}</b><br>${v.ok}/${v.n} réponses correctes</div>`).join("")}
+    </div>
+    <div class="identity"><b>Méthode à retenir :</b><br>
+      1. Repérer les carrés.<br>
+      2. Vérifier le terme central ±2ab s'il y en a un.<br>
+      3. Choisir l'identité adaptée.<br>
+      4. Contrôler en développant mentalement le résultat.
+    </div>
+    <button class="main" onclick="startScreen()">Recommencer</button>
+  `;
+}
+startScreen();
+</script>
+</body>
+</html>
