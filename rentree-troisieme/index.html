@@ -61,23 +61,141 @@ h1{font-size:clamp(1.55rem,4.5vw,2.25rem);line-height:1.15;margin:.25rem 0 .6rem
 .figure svg{width:100%;height:auto;border:1px solid var(--border);border-radius:13px;background:#fff}
 .footer{text-align:center;color:var(--muted);font-size:.82rem;margin-top:12px}
 .footer strong{font-family:Georgia,serif;color:var(--navy)}
-@media(max-width:640px){.wrap{padding:8px}.card{padding:14px;border-radius:15px}.fm-header{grid-template-columns:58px 1fr;gap:10px}.fm-logo{width:58px;height:58px}.fm-identity{padding-left:10px}.fm-name{font-size:1.18rem}.fm-title{font-size:.72rem}.fm-right{grid-column:1/-1;flex-direction:row;justify-content:space-between;align-items:center;width:100%;padding-top:3px}.summary{grid-template-columns:1fr}.question{font-size:1.15rem}.option{padding:12px}.result{font-size:3rem}}
+.hidden{display:none}
+@media(max-width:640px){
+ .wrap{padding:8px}.card{padding:14px;border-radius:15px}.fm-header{grid-template-columns:58px 1fr;gap:10px}
+ .fm-logo{width:58px;height:58px}.fm-identity{padding-left:10px}.fm-name{font-size:1.18rem}.fm-title{font-size:.72rem}
+ .fm-right{grid-column:1/-1;flex-direction:row;justify-content:space-between;align-items:center;width:100%;padding-top:3px}
+ .summary{grid-template-columns:1fr}.question{font-size:1.15rem}.option{padding:12px}.result{font-size:3rem}
+}
 </style>
 </head>
 <body>
-<div class="wrap"><main class="card" id="app"></main><div class="footer"><strong>Faicel Missaoui</strong> — Professeur agrégé de mathématiques</div></div>
+<div class="wrap">
+<main class="card" id="app"></main>
+<div class="footer"><strong>Faicel Missaoui</strong> — Professeur agrégé de mathématiques</div>
+</div>
 <script>
-const Q=[{"p":"1 · Nombres relatifs","q":"Calculer <b>−7 + 12</b>.","o":["−19","−5","5","19"],"a":2,"e":"−7 + 12 = 5."},{"p":"1 · Nombres relatifs","q":"Calculer <b>(−3) × 8</b>.","o":["24","−24","−11","11"],"a":1,"e":"Un nombre négatif multiplié par un nombre positif donne un résultat négatif : (−3)×8 = −24."},{"p":"1 · Fractions","q":"Calculer <b>5/6 + 1/3</b>.","o":["6/9","7/6","2/3","5/9"],"a":1,"e":"1/3 = 2/6, donc 5/6 + 2/6 = 7/6."},{"p":"1 · Fractions","q":"Calculer <b>7/8 × 4/21</b>.","o":["1/6","2/3","11/29","1/2"],"a":0,"e":"7/8 × 4/21 = 28/168 = 1/6."},{"p":"2 · Puissances","q":"Simplifier <b>10³ × 10⁻⁵</b>.","o":["10⁻¹⁵","10⁻⁸","10⁻²","10²"],"a":2,"e":"10³×10⁻⁵ = 10^(3−5) = 10⁻²."},{"p":"2 · Écriture scientifique","q":"Quelle est l’écriture scientifique de <b>0,00047</b> ?","o":["47×10⁻⁵","4,7×10⁻⁴","0,47×10⁻³","4,7×10⁴"],"a":1,"e":"En écriture scientifique, le premier facteur est compris entre 1 et 10 : 0,00047 = 4,7×10⁻⁴."},{"p":"3 · Développer","q":"Développer <b>3(2x−5)</b>.","o":["6x−5","6x−15","5x−15","6x+15"],"a":1,"e":"3(2x−5)=3×2x−3×5=6x−15."},{"p":"3 · Réduire","q":"Réduire <b>4x+3−2x+7</b>.","o":["2x+10","2x−4","6x+10","2x+4"],"a":0,"e":"4x−2x=2x et 3+7=10, donc 4x+3−2x+7=2x+10."},{"p":"3 · Factoriser","q":"Factoriser <b>5x+15</b>.","o":["5(x+3)","5(x+15)","x(5+15)","15(x+5)"],"a":0,"e":"5 est facteur commun : 5x+15 = 5(x+3)."},{"p":"3 · Substitution","q":"Pour <b>x=−2</b>, calculer <b>3x²−1</b>.","o":["−13","5","11","35"],"a":2,"e":"3(−2)²−1 = 3×4−1 = 11. Attention : (−2)²=4."},{"p":"4 · Équations","q":"Résoudre <b>3x+5=17</b>.","o":["x=3","x=4","x=6","x=22/3"],"a":1,"e":"3x+5=17 ⇔ 3x=12 ⇔ x=4."},{"p":"4 · Équations","q":"Résoudre <b>5x−7=2x+8</b>.","o":["x=1","x=3","x=5","x=15"],"a":2,"e":"5x−7=2x+8 ⇔ 3x=15 ⇔ x=5."},{"p":"4 · Pourcentages","q":"Un article coûte <b>80 €</b>. Son prix augmente de <b>10 %</b>. Quel est le nouveau prix ?","o":["88 €","90 €","72 €","80,10 €"],"a":0,"e":"10 % de 80 € vaut 8 €. Le nouveau prix est donc 80+8=88 €."},{"p":"4 · Proportionnalité","q":"<b>3 kg</b> de pommes coûtent <b>7,50 €</b>. Combien coûtent <b>5 kg</b> au même prix au kilogramme ?","o":["10 €","11,50 €","12,50 €","15 €"],"a":2,"e":"1 kg coûte 7,50÷3=2,50 €. Donc 5 kg coûtent 5×2,50=12,50 €."},{"p":"5 · Pythagore","q":"Dans un triangle ABC rectangle en A, <b>AB=6 cm</b> et <b>AC=8 cm</b>. Quelle est la longueur BC ?","o":["7 cm","10 cm","14 cm","100 cm"],"a":1,"e":"BC²=AB²+AC²=6²+8²=36+64=100, donc BC=10 cm.","fig":"pythagore"},{"p":"5 · Réciproque de Pythagore","q":"Un triangle a pour côtés <b>5 cm, 12 cm et 13 cm</b>. Peut-on affirmer qu’il est rectangle ?","o":["Oui","Non","Seulement s’il est isocèle","Impossible à savoir"],"a":0,"e":"13²=169 et 5²+12²=25+144=169. Par la réciproque du théorème de Pythagore, le triangle est rectangle."},{"p":"5 · Vocabulaire","q":"Dans un triangle rectangle, comment s’appelle le côté opposé à l’angle droit ?","o":["La médiane","La hauteur","L’hypoténuse","La diagonale"],"a":2,"e":"Le côté opposé à l’angle droit est l’hypoténuse. C’est aussi le plus long côté du triangle."},{"p":"6 · Statistiques","q":"Les notes sont <b>8 ; 10 ; 10 ; 12 ; 15</b>. Quelle est leur moyenne ?","o":["10","11","12","55"],"a":1,"e":"(8+10+10+12+15)÷5 = 55÷5 = 11."},{"p":"6 · Probabilités","q":"Une urne contient <b>3 boules rouges</b> et <b>2 boules bleues</b>. On tire une boule au hasard. Quelle est la probabilité d’obtenir une boule bleue ?","o":["2/3","2/5","3/5","1/2"],"a":1,"e":"Il y a 2 issues favorables sur 5 boules au total, donc la probabilité est 2/5."},{"p":"6 · Préparer les fonctions","q":"On associe à chaque nombre <b>x</b> le nombre <b>2x+3</b>. Quel nombre est associé à <b>x=4</b> ?","o":["8","9","10","11"],"a":3,"e":"2×4+3 = 8+3 = 11."}];
-let i=0,score=0,answered=false,student="",answers=[];
-function header(){return `<header class="fm-header"><img class="fm-logo" src="../logo-fm.svg" alt="Logo FM"><div class="fm-identity"><div class="fm-name">Faicel Missaoui</div><div class="fm-title">Professeur agrégé de mathématiques</div></div><div class="fm-right"><div class="fm-phone"><small>Téléphone :</small>52266771</div><div class="pill">Troisième · QFM</div></div></header>`}
-function fig(kind){if(kind!=="pythagore")return "";return `<div class="figure"><svg viewBox="0 0 520 300" role="img" aria-label="Triangle rectangle ABC"><defs><pattern id="grid" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M25 0H0V25" fill="none" stroke="#dfe6ee" stroke-width="1"/></pattern></defs><rect width="520" height="300" fill="url(#grid)"/><line x1="90" y1="245" x2="90" y2="65" stroke="#167b7a" stroke-width="5"/><line x1="90" y1="245" x2="410" y2="245" stroke="#167b7a" stroke-width="5"/><line x1="90" y1="65" x2="410" y2="245" stroke="#102a5c" stroke-width="5"/><path d="M90 215H120V245" fill="none" stroke="#b42318" stroke-width="3"/><text x="67" y="265" font-size="20" font-weight="700">A</text><text x="63" y="58" font-size="20" font-weight="700">B</text><text x="418" y="265" font-size="20" font-weight="700">C</text><text x="38" y="158" font-size="19" fill="#172033">6 cm</text><text x="227" y="275" font-size="19" fill="#172033">8 cm</text><text x="270" y="136" font-size="19" fill="#172033">BC ?</text></svg></div>`}
-function start(){document.getElementById("app").innerHTML=header()+`<h1>Mise à niveau — Entrée en Troisième</h1><div class="subtitle">Révisions essentielles de Quatrième · 20 questions progressives</div><div class="rule"><b>Objectif :</b> repérer les acquis solides et les notions à revoir avant de commencer la Troisième. Ce QFM est diagnostique : l’important est d’identifier les domaines à consolider.</div><label for="student"><b>Nom de l’élève</b></label><input id="student" class="namebox" autocomplete="name" placeholder="Prénom et nom"><button class="btn primary" onclick="begin()">Commencer le QFM</button><p class="small">Une seule réponse par question. La correction apparaît immédiatement.</p>`}
-function begin(){student=document.getElementById("student").value.trim()||"Élève";i=0;score=0;answers=[];showQuestion()}
-function showQuestion(){answered=false;const q=Q[i];document.getElementById("app").innerHTML=header()+`<div class="topline"><div class="phase">${q.p}</div><div class="score">Score : ${score} / ${i}</div></div><div class="progress"><div class="bar" style="width:${(i/Q.length)*100}%"></div></div><div class="small">Question ${i+1} sur ${Q.length}</div><div class="question">${q.q}</div>${fig(q.fig)}<div class="options">${q.o.map((x,j)=>`<button class="option" onclick="choose(${j})"><span class="letter">${['A','B','C','D'][j]}</span>${x}</button>`).join("")}</div><div id="fb"></div>`}
-function choose(j){if(answered)return;answered=true;const q=Q[i],ok=j===q.a;if(ok)score++;answers.push({q:i,chosen:j,ok});const buttons=[...document.querySelectorAll(".option")];buttons.forEach((b,k)=>{b.disabled=true;if(k===q.a)b.classList.add("correct");if(k===j&&!ok)b.classList.add("wrong")});document.getElementById("fb").innerHTML=`<div class="feedback ${ok?"good":"bad"}"><b>${ok?"Bonne réponse.":"À revoir."}</b><br>${q.e}</div><div class="actions"><button class="btn primary" onclick="next()">${i===Q.length-1?"Voir mon bilan":"Question suivante"}</button></div>`}
-function next(){i++;if(i<Q.length)showQuestion();else result()}
-function domainName(p){const n=parseInt(p);return {1:"Calcul numérique",2:"Puissances et écriture scientifique",3:"Calcul littéral",4:"Équations et proportionnalité",5:"Géométrie — Pythagore",6:"Données, probabilités et fonctions"}[n]||p}
-function result(){const by={};Q.forEach((q,k)=>{const key=q.p.charAt(0);if(!by[key])by[key]={good:0,total:0,name:domainName(q.p)};by[key].total++;if(answers[k]?.ok)by[key].good++});const pct=Math.round(100*score/Q.length);let msg=score>=17?"Acquis de Quatrième très solides.":score>=13?"Niveau satisfaisant : quelques automatismes sont à consolider.":score>=9?"Une remise à niveau ciblée est recommandée.":"Il faut reprendre progressivement plusieurs fondamentaux.";const errors=answers.filter(a=>!a.ok);const shareText=encodeURIComponent(`QFM — Mise à niveau entrée en Troisième\n${student} : ${score}/${Q.length} (${pct} %)\n${location.href}`);document.getElementById("app").innerHTML=header()+`<h1>Bilan de ${student}</h1><div class="result">${score} / ${Q.length}</div><div class="subtitle">${pct} % de réussite · ${msg}</div><div class="summary"><div class="metric"><span>Bonnes réponses</span><b>${score}</b></div><div class="metric"><span>Questions à revoir</span><b>${Q.length-score}</b></div></div><h2>Profil par domaine</h2><div class="domain-grid">${Object.values(by).map(d=>`<div class="domain"><strong>${d.name}</strong><span>${d.good} / ${d.total}</span></div>`).join("")}</div>${errors.length?`<h2>Mes erreurs à retravailler</h2><div class="errors">${errors.map(a=>`<div class="error"><div class="q">${Q[a.q].q}</div><div class="corr">Réponse : ${Q[a.q].o[Q[a.q].a]}</div><div class="small">${Q[a.q].e}</div></div>`).join("")}</div>`:`<div class="feedback good"><b>Excellent :</b> aucune erreur sur ce parcours.</div>`}<div class="actions"><button class="btn primary" onclick="start()">Recommencer</button><button class="btn whatsapp" onclick="window.open('https://wa.me/?text=${shareText}','_blank')">Partager le résultat sur WhatsApp</button></div>`}
+const Q=[{"p": "1 · Nombres relatifs", "q": "Calculer <b>−7 + 12</b>.", "o": ["−19", "−5", "5", "19"], "a": 2, "e": "−7 + 12 = 5."}, {"p": "1 · Nombres relatifs", "q": "Calculer <b>(−3) × 8</b>.", "o": ["24", "−24", "−11", "11"], "a": 1, "e": "Un nombre négatif multiplié par un nombre positif donne un résultat négatif : (−3)×8 = −24."}, {"p": "1 · Fractions", "q": "Calculer <b>5/6 + 1/3</b>.", "o": ["6/9", "7/6", "2/3", "5/9"], "a": 1, "e": "1/3 = 2/6, donc 5/6 + 2/6 = 7/6."}, {"p": "1 · Fractions", "q": "Calculer <b>7/8 × 4/21</b>.", "o": ["1/6", "2/3", "11/29", "1/2"], "a": 0, "e": "7/8 × 4/21 = 28/168 = 1/6."}, {"p": "2 · Puissances", "q": "Simplifier <b>10³ × 10⁻⁵</b>.", "o": ["10⁻¹⁵", "10⁻⁸", "10⁻²", "10²"], "a": 2, "e": "10³×10⁻⁵ = 10^(3−5) = 10⁻²."}, {"p": "2 · Écriture scientifique", "q": "Quelle est l’écriture scientifique de <b>0,00047</b> ?", "o": ["47×10⁻⁵", "4,7×10⁻⁴", "0,47×10⁻³", "4,7×10⁴"], "a": 1, "e": "En écriture scientifique, le premier facteur est compris entre 1 et 10 : 0,00047 = 4,7×10⁻⁴."}, {"p": "3 · Développer", "q": "Développer <b>3(2x−5)</b>.", "o": ["6x−5", "6x−15", "5x−15", "6x+15"], "a": 1, "e": "3(2x−5)=3×2x−3×5=6x−15."}, {"p": "3 · Réduire", "q": "Réduire <b>4x+3−2x+7</b>.", "o": ["2x+10", "2x−4", "6x+10", "2x+4"], "a": 0, "e": "4x−2x=2x et 3+7=10, donc 4x+3−2x+7=2x+10."}, {"p": "3 · Factoriser", "q": "Factoriser <b>5x+15</b>.", "o": ["5(x+3)", "5(x+15)", "x(5+15)", "15(x+5)"], "a": 0, "e": "5 est facteur commun : 5x+15 = 5(x+3)."}, {"p": "3 · Substitution", "q": "Pour <b>x=−2</b>, calculer <b>3x²−1</b>.", "o": ["−13", "5", "11", "35"], "a": 2, "e": "3(−2)²−1 = 3×4−1 = 11. Attention : (−2)²=4."}, {"p": "4 · Équations", "q": "Résoudre <b>3x+5=17</b>.", "o": ["x=3", "x=4", "x=6", "x=22/3"], "a": 1, "e": "3x+5=17 ⇔ 3x=12 ⇔ x=4."}, {"p": "4 · Équations", "q": "Résoudre <b>5x−7=2x+8</b>.", "o": ["x=1", "x=3", "x=5", "x=15"], "a": 2, "e": "5x−7=2x+8 ⇔ 3x=15 ⇔ x=5."}, {"p": "4 · Pourcentages", "q": "Un article coûte <b>80 €</b>. Son prix augmente de <b>10 %</b>. Quel est le nouveau prix ?", "o": ["88 €", "90 €", "72 €", "80,10 €"], "a": 0, "e": "10 % de 80 € vaut 8 €. Le nouveau prix est donc 80+8=88 €."}, {"p": "4 · Proportionnalité", "q": "<b>3 kg</b> de pommes coûtent <b>7,50 €</b>. Combien coûtent <b>5 kg</b> au même prix au kilogramme ?", "o": ["10 €", "11,50 €", "12,50 €", "15 €"], "a": 2, "e": "1 kg coûte 7,50÷3=2,50 €. Donc 5 kg coûtent 5×2,50=12,50 €."}, {"p": "5 · Pythagore", "q": "Dans un triangle ABC rectangle en A, <b>AB=6 cm</b> et <b>AC=8 cm</b>. Quelle est la longueur BC ?", "o": ["7 cm", "10 cm", "14 cm", "100 cm"], "a": 1, "e": "BC²=AB²+AC²=6²+8²=36+64=100, donc BC=10 cm.", "fig": "pythagore"}, {"p": "5 · Réciproque de Pythagore", "q": "Un triangle a pour côtés <b>5 cm, 12 cm et 13 cm</b>. Peut-on affirmer qu’il est rectangle ?", "o": ["Oui", "Non", "Seulement s’il est isocèle", "Impossible à savoir"], "a": 0, "e": "13²=169 et 5²+12²=25+144=169. Par la réciproque du théorème de Pythagore, le triangle est rectangle."}, {"p": "5 · Vocabulaire", "q": "Dans un triangle rectangle, comment s’appelle le côté opposé à l’angle droit ?", "o": ["La médiane", "La hauteur", "L’hypoténuse", "La diagonale"], "a": 2, "e": "Le côté opposé à l’angle droit est l’hypoténuse. C’est aussi le plus long côté du triangle."}, {"p": "6 · Statistiques", "q": "Les notes sont <b>8 ; 10 ; 10 ; 12 ; 15</b>. Quelle est leur moyenne ?", "o": ["10", "11", "12", "55"], "a": 1, "e": "(8+10+10+12+15)÷5 = 55÷5 = 11."}, {"p": "6 · Probabilités", "q": "Une urne contient <b>3 boules rouges</b> et <b>2 boules bleues</b>. On tire une boule au hasard. Quelle est la probabilité d’obtenir une boule bleue ?", "o": ["2/3", "2/5", "3/5", "1/2"], "a": 1, "e": "Il y a 2 issues favorables sur 5 boules au total, donc la probabilité est 2/5."}, {"p": "6 · Préparer les fonctions", "q": "On associe à chaque nombre <b>x</b> le nombre <b>2x+3</b>. Quel nombre est associé à <b>x=4</b> ?", "o": ["8", "9", "10", "11"], "a": 3, "e": "2×4+3 = 8+3 = 11."}];
+let i=0, score=0, answered=false, student="", answers=[];
+
+function header(){
+ return `<header class="fm-header">
+   <img class="fm-logo" src="logo-fm-officiel.jpg" alt="Logo FM">
+   <div class="fm-identity"><div class="fm-name">Faicel Missaoui</div><div class="fm-title">Professeur agrégé de mathématiques</div></div>
+   <div class="fm-right"><div class="fm-phone"><small>Téléphone :</small>52266771</div><div class="pill">Troisième · QFM</div></div>
+ </header>`;
+}
+
+function fig(kind){
+ if(kind!=="pythagore") return "";
+ return `<div class="figure">
+ <svg viewBox="0 0 520 300" role="img" aria-label="Triangle rectangle ABC">
+ <defs><pattern id="grid" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M25 0H0V25" fill="none" stroke="#dfe6ee" stroke-width="1"/></pattern></defs>
+ <rect width="520" height="300" fill="url(#grid)"/>
+ <line x1="90" y1="245" x2="90" y2="65" stroke="#167b7a" stroke-width="5"/>
+ <line x1="90" y1="245" x2="410" y2="245" stroke="#167b7a" stroke-width="5"/>
+ <line x1="90" y1="65" x2="410" y2="245" stroke="#102a5c" stroke-width="5"/>
+ <path d="M90 215H120V245" fill="none" stroke="#b42318" stroke-width="3"/>
+ <text x="67" y="265" font-size="20" font-weight="700">A</text>
+ <text x="63" y="58" font-size="20" font-weight="700">B</text>
+ <text x="418" y="265" font-size="20" font-weight="700">C</text>
+ <text x="38" y="158" font-size="19" fill="#172033">6 cm</text>
+ <text x="227" y="275" font-size="19" fill="#172033">8 cm</text>
+ <text x="270" y="136" font-size="19" fill="#172033">BC ?</text>
+ </svg></div>`;
+}
+
+function start(){
+ document.getElementById("app").innerHTML=header()+`
+ <h1>Mise à niveau — Entrée en Troisième</h1>
+ <div class="subtitle">Révisions essentielles de Quatrième · 20 questions progressives</div>
+ <div class="rule"><b>Objectif :</b> repérer les acquis solides et les notions à revoir avant de commencer la Troisième. Ce QFM est diagnostique : l’important est d’identifier les domaines à consolider.</div>
+ <label for="student"><b>Nom de l’élève</b></label>
+ <input id="student" class="namebox" autocomplete="name" placeholder="Prénom et nom">
+ <button class="btn primary" onclick="begin()">Commencer le QFM</button>
+ <p class="small">Une seule réponse par question. La correction apparaît immédiatement.</p>`;
+}
+
+function begin(){
+ student=document.getElementById("student").value.trim()||"Élève";
+ i=0;score=0;answers=[];showQuestion();
+}
+
+function showQuestion(){
+ answered=false;
+ const q=Q[i];
+ document.getElementById("app").innerHTML=header()+`
+ <div class="topline"><div class="phase">${q.p}</div><div class="score">Score : ${score} / ${i}</div></div>
+ <div class="progress"><div class="bar" style="width:${(i/Q.length)*100}%"></div></div>
+ <div class="small">Question ${i+1} sur ${Q.length}</div>
+ <div class="question">${q.q}</div>
+ ${fig(q.fig)}
+ <div class="options">${q.o.map((x,j)=>`<button class="option" onclick="choose(${j})"><span class="letter">${['A','B','C','D'][j]}</span>${x}</button>`).join("")}</div>
+ <div id="fb"></div>`;
+}
+
+function choose(j){
+ if(answered) return;
+ answered=true;
+ const q=Q[i], ok=j===q.a;
+ if(ok) score++;
+ answers.push({q:i,chosen:j,ok});
+ const buttons=[...document.querySelectorAll(".option")];
+ buttons.forEach((b,k)=>{b.disabled=true;if(k===q.a)b.classList.add("correct");if(k===j&&!ok)b.classList.add("wrong");});
+ document.getElementById("fb").innerHTML=`
+ <div class="feedback ${ok?"good":"bad"}"><b>${ok?"Bonne réponse.":"À revoir."}</b><br>${q.e}</div>
+ <div class="actions"><button class="btn primary" onclick="next()">${i===Q.length-1?"Voir mon bilan":"Question suivante"}</button></div>`;
+}
+
+function next(){
+ i++;
+ if(i<Q.length) showQuestion(); else result();
+}
+
+function domainName(p){
+ const n=parseInt(p);
+ return {
+ 1:"Calcul numérique",
+ 2:"Puissances et écriture scientifique",
+ 3:"Calcul littéral",
+ 4:"Équations et proportionnalité",
+ 5:"Géométrie — Pythagore",
+ 6:"Données, probabilités et fonctions"
+ }[n]||p;
+}
+
+function result(){
+ const by={};
+ Q.forEach((q,k)=>{
+   const key=q.p.charAt(0);
+   if(!by[key]) by[key]={good:0,total:0,name:domainName(q.p)};
+   by[key].total++;
+   if(answers[k]?.ok) by[key].good++;
+ });
+ const pct=Math.round(100*score/Q.length);
+ let msg = score>=17 ? "Acquis de Quatrième très solides." :
+           score>=13 ? "Niveau satisfaisant : quelques automatismes sont à consolider." :
+           score>=9 ? "Une remise à niveau ciblée est recommandée." :
+                      "Il faut reprendre progressivement plusieurs fondamentaux.";
+ const errors=answers.filter(a=>!a.ok);
+ const shareText=encodeURIComponent(`QFM — Mise à niveau entrée en Troisième\n${student} : ${score}/${Q.length} (${pct} %)\n${location.href}`);
+ document.getElementById("app").innerHTML=header()+`
+ <h1>Bilan de ${student}</h1>
+ <div class="result">${score} / ${Q.length}</div>
+ <div class="subtitle">${pct} % de réussite · ${msg}</div>
+ <div class="summary">
+  <div class="metric"><span>Bonnes réponses</span><b>${score}</b></div>
+  <div class="metric"><span>Questions à revoir</span><b>${Q.length-score}</b></div>
+ </div>
+ <h2>Profil par domaine</h2>
+ <div class="domain-grid">${Object.values(by).map(d=>`<div class="domain"><strong>${d.name}</strong><span>${d.good} / ${d.total}</span></div>`).join("")}</div>
+ ${errors.length?`<h2>Mes erreurs à retravailler</h2><div class="errors">${errors.map(a=>`<div class="error"><div class="q">${Q[a.q].q}</div><div class="corr">Réponse : ${Q[a.q].o[Q[a.q].a]}</div><div class="small">${Q[a.q].e}</div></div>`).join("")}</div>`:`<div class="feedback good"><b>Excellent :</b> aucune erreur sur ce parcours.</div>`}
+ <div class="actions">
+   <button class="btn primary" onclick="start()">Recommencer</button>
+   <button class="btn whatsapp" onclick="window.open('https://wa.me/?text=${shareText}','_blank')">Partager le résultat sur WhatsApp</button>
+ </div>`;
+}
 start();
 </script>
 </body>
